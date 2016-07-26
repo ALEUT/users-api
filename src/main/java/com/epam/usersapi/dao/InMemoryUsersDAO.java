@@ -27,9 +27,8 @@ public class InMemoryUsersDAO implements UsersDAO {
     }
 
     @Override
-    public void update(int id, User user) {
-        user.setId(id);
-        idUserMap.put(id, user);
+    public void update(User user) {
+        idUserMap.put(user.getId(), user);
     }
 
     @Override

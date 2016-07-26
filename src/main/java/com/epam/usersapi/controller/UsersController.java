@@ -9,22 +9,26 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.Collection;
 
+import static com.epam.usersapi.controller.UsersController.REQUEST_MAPPING;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping(REQUEST_MAPPING)
 public class UsersController {
+
+    protected static final String REQUEST_MAPPING = "users";
 
     @Autowired
     private UsersDAO usersDAO;
 
-    @RequestMapping("")
-    public Collection<User> getUsers() {
+    @RequestMapping(method = GET)
+    public Collection<User> list() {
         return usersDAO.list();
     }
 
-    @RequestMapping("/{id}")
+    @RequestMapping(value = "/{id}", method = GET)
     public ResponseEntity<User> get(@PathVariable int id) {
         User user = usersDAO.get(id);
         if (user == null) {
@@ -34,24 +38,24 @@ public class UsersController {
         return new ResponseEntity<>(user, OK);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(method = POST)
     public ResponseEntity<Void> add(@RequestBody User user) {
         usersDAO.add(user);
-        URI getUri = URI.create(String.format("/user/%d", user.getId()));
+        URI getUri = URI.create(String.format("/%s/%d", REQUEST_MAPPING, user.getId()));
         return ResponseEntity.created(getUri).build();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@PathVariable int id, @RequestBody User user) {
-        if (usersDAO.get(id) == null) {
+    @RequestMapping(method = PUT)
+    public ResponseEntity<Void> update(@RequestBody User user) {
+        if (usersDAO.get(user.getId()) == null) {
             return new ResponseEntity<>(NOT_FOUND);
         }
 
-        usersDAO.update(id, user);
+        usersDAO.update(user);
         return new ResponseEntity<>(OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = DELETE)
     public ResponseEntity<Void> delete(@PathVariable int id) {
         if (usersDAO.get(id) == null) {
             return new ResponseEntity<>(NOT_FOUND);
