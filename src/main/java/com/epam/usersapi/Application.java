@@ -1,6 +1,6 @@
 package com.epam.usersapi;
 
-import com.epam.usersapi.dao.IUserDAO;
+import com.epam.usersapi.dao.UserDAO;
 import com.epam.usersapi.dao.InMemoryUserDAO;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 public class Application {
 
     @Bean
-    public IUserDAO userDAO() {
+    public UserDAO userDAO() {
         return new InMemoryUserDAO();
     }
 

@@ -1,6 +1,6 @@
 package com.epam.usersapi.controller;
 
-import com.epam.usersapi.dao.IUserDAO;
+import com.epam.usersapi.dao.UserDAO;
 import com.epam.usersapi.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import static org.springframework.http.HttpStatus.OK;
 public class UserController {
 
     @Autowired
-    private IUserDAO userDAO;
+    private UserDAO userDAO;
 
     @RequestMapping("/list")
     public Collection<User> getUsers() {

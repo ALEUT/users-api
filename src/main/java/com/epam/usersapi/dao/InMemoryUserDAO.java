@@ -4,7 +4,7 @@ import com.epam.usersapi.model.User;
 
 import java.util.*;
 
-public class InMemoryUserDAO implements IUserDAO {
+public class InMemoryUserDAO implements UserDAO {
 
     private Map<Integer, User> idUserMap = new LinkedHashMap<>();
     private int idCounter = 0;
