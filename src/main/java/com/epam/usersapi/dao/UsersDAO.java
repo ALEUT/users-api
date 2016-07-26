@@ -4,7 +4,7 @@ import com.epam.usersapi.model.User;
 
 import java.util.Collection;
 
-public interface UserDAO {
+public interface UsersDAO {
 
     Collection<User> list();
 
