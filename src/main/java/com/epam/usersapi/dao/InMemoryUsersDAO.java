@@ -6,8 +6,7 @@ import java.util.*;
 
 public class InMemoryUsersDAO implements UsersDAO {
 
-    private Map<Integer, User> idUserMap = new LinkedHashMap<>();
-    private int idCounter = 0;
+    private Map<UUID, User> idUserMap = new LinkedHashMap<>();
 
     @Override
     public Collection<User> list() {
@@ -15,15 +14,14 @@ public class InMemoryUsersDAO implements UsersDAO {
     }
 
     @Override
-    public User get(int id) {
+    public User get(UUID id) {
         return idUserMap.get(id);
     }
 
     @Override
     public void add(User user) {
-        int id = idCounter++;
-        user.setId(id);
-        idUserMap.put(id, user);
+        user.setId(UUID.randomUUID());
+        idUserMap.put(user.getId(), user);
     }
 
     @Override
@@ -32,7 +30,7 @@ public class InMemoryUsersDAO implements UsersDAO {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(UUID id) {
         idUserMap.remove(id);
     }
 }

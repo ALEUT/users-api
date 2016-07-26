@@ -4,10 +4,14 @@ import com.epam.usersapi.dao.UsersDAO;
 import com.epam.usersapi.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.util.Collection;
+import java.util.UUID;
 
 import static com.epam.usersapi.controller.UsersController.REQUEST_MAPPING;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -29,7 +33,7 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/{id}", method = GET)
-    public ResponseEntity<User> get(@PathVariable int id) {
+    public ResponseEntity<User> get(@PathVariable UUID id) {
         User user = usersDAO.get(id);
         if (user == null) {
             return new ResponseEntity<>(NOT_FOUND);
@@ -41,7 +45,7 @@ public class UsersController {
     @RequestMapping(method = POST)
     public ResponseEntity<Void> add(@RequestBody User user) {
         usersDAO.add(user);
-        URI getUri = URI.create(String.format("/%s/%d", REQUEST_MAPPING, user.getId()));
+        URI getUri = URI.create(String.format("/%s/%s", REQUEST_MAPPING, user.getId()));
         return ResponseEntity.created(getUri).build();
     }
 
@@ -56,7 +60,7 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/{id}", method = DELETE)
-    public ResponseEntity<Void> delete(@PathVariable int id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         if (usersDAO.get(id) == null) {
             return new ResponseEntity<>(NOT_FOUND);
         }

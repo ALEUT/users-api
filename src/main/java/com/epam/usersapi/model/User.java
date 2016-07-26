@@ -1,20 +1,21 @@
 package com.epam.usersapi.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class User {
 
-    private int id;
+    private UUID id;
     private String email;
     private String firstName;
     private String lastName;
     private Date dateOfBirth;
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
